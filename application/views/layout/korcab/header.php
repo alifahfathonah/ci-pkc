@@ -29,17 +29,24 @@
     <link href="<?php echo base_url('asset/vendor/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet">
 
     <style>
-        .box{position: relative;}
-        .card{ width: 501.732pt; height: 147.402pt; }
-        .kode{ 
-            position: absolute; 
-            top: 110pt; 
-            left: 10pt; 
+        .box {
+            position: relative;
+        }
+
+        .card {
+            width: 501.732pt;
+            height: 147.402pt;
+        }
+
+        .kode {
+            position: absolute;
+            top: 110pt;
+            left: 10pt;
             color: #fff;
             font-size: 15pt;
         }
     </style>
-    
+
 </head>
 
 <body>
@@ -66,10 +73,10 @@
                         <i class="fa fa-user fa-fw"></i> <?php echo $this->session->userdata('name_user') ?> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="<?php echo site_url('korcab/profil_edit/'.$this->session->userdata('id_user')) ?>"><i class="fa fa-cog fa-fw"></i> User Profile</a>
+                        <li><a href="<?php echo site_url('korcab/profil_edit/' . $this->session->userdata('id_user')) ?>"><i class="fa fa-cog fa-fw"></i> User Profile</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a data-toggle="modal" data-target="#modal-logout""><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a data-toggle="modal" data-target="#modal-logout"><i class=" fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -81,20 +88,20 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <li><a href="<?php echo site_url('korcab') ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
+                        <li><a href="<?php echo site_url('korcab') ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-map fa-fw"></i> Cabang <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <!-- daftar diambil dari parsing data setiap controller -->
-                                <?php 
-                                    foreach ($header_cabang as $cabang) {
-                                        if ($cabang->nama_cabang != "Bukan Cabang") {
-                                ?>
-                                <li><a href="<?php echo site_url('korcab/cabang/'.$cabang->id_cabang) ?>"><i class="fa fa-angle-right"></i> <?php echo $cabang->nama_cabang ?></a></li>
                                 <?php
-                                        }
+                                foreach ($header_cabang as $cabang) {
+                                    if ($cabang->nama_cabang != "Bukan Cabang") {
+                                ?>
+                                        <li><a href="<?php echo site_url('korcab/cabang/' . $cabang->id_cabang) ?>"><i class="fa fa-angle-right"></i> <?php echo $cabang->nama_cabang ?></a></li>
+                                <?php
                                     }
+                                }
                                 ?>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -125,4 +132,3 @@
         </nav>
 
         <!-- content page web -->
-        

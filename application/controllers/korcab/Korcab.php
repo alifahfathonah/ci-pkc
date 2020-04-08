@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Korcab extends CI_Controller {
+class Korcab extends CI_Controller
+{
     public function __construct()
     {
         parent::__construct();
@@ -15,14 +16,13 @@ class Korcab extends CI_Controller {
         $this->load->model('alumni_model');
 
         // syntax, apakah pengakses sudah login ? 
-        if($this->session->userdata('status') != "login" AND $this->session->userdata('level_user') != 2)
-        {
-			redirect(site_url('login'));
-		}
+        if ($this->session->userdata('status') != "login" and $this->session->userdata('level_user') != 2) {
+            redirect(site_url('login'));
+        }
     }
 
-	public function index()
-	{
+    public function index()
+    {
         $id_cabang_parsing = $this->session->userdata('cabang_id');
         $total_pkn      = $this->anggota_model->total_pkn($id_cabang_parsing);
         $total_pkl      = $total_pkn + $this->anggota_model->total_pkl($id_cabang_parsing);
@@ -46,59 +46,58 @@ class Korcab extends CI_Controller {
             'total_skkn'        => $total_skkn,
         );
 
-		$this->load->view('korcab/index', $data);
-	}
+        $this->load->view('korcab/index', $data);
+    }
 
     public function profil_edit($id_user)
-	{
+    {
         $data = array(
             'header_cabang' => $this->cabang_model->all(), //untuk parsing daftar data cabang
         );
 
         $this->load->view('korcab/profil', $data);
     }
-    
+
     public function ubah_profil($id_user)
-	{
-		$data1 = array(
-			'name_user' => $this->input->post('txt_name'), 
-		);
+    {
+        $data1 = array(
+            'name_user' => $this->input->post('txt_name'),
+        );
 
-		$data2 = array(
-			'name_user' => $this->input->post('txt_name'), 
-			'pass_user' => md5($this->input->post('txt_pass')), 
-		);
+        $data2 = array(
+            'name_user' => $this->input->post('txt_name'),
+            'pass_user' => md5($this->input->post('txt_pass')),
+        );
 
-		if (empty($this->input->post('txt_pass'))) {
-			$this->db->update('user', $data1, array('id_user' => $id_user));
-		} else {
-			$this->db->update('user', $data2, array('id_user' => $id_user));
-		}
+        if (empty($this->input->post('txt_pass'))) {
+            $this->db->update('user', $data1, array('id_user' => $id_user));
+        } else {
+            $this->db->update('user', $data2, array('id_user' => $id_user));
+        }
 
-		$data = $this->user_model->where($id_user);
+        $data = $this->user_model->where($id_user);
 
-		if ($data) {
-			$data_session = array(
-                'id_user' 		=> $data->id_user,
-                'cabang_id' 	=> $data->cabang_id,
-				'name_user' 	=> $name_user,
-                'level_user'	=> $level_user,
-				'status' 		=> "login"
-			);
-			
-			// pembuatan session
-			$this->session->set_userdata($data_session);
+        if ($data) {
+            $data_session = array(
+                'id_user'         => $data->id_user,
+                'cabang_id'     => $data->cabang_id,
+                'name_user'     => $name_user,
+                'level_user'    => $level_user,
+                'status'         => "login"
+            );
 
-			// redirect kehalaman index
-			redirect(site_url('korcab'));
-        } 
-        else {
-			redirect(site_url('login'));
-		}
+            // pembuatan session
+            $this->session->set_userdata($data_session);
+
+            // redirect kehalaman index
+            redirect(site_url('korcab'));
+        } else {
+            redirect(site_url('login'));
+        }
     }
-    
+
     public function cabang($id_cabang)
-	{
+    {
         $total_pkn      = $this->anggota_model->total_pkn($id_cabang);
         $total_pkl      = $total_pkn + $this->anggota_model->total_pkl($id_cabang);
         $total_pkd      = $total_pkn + $total_pkl + $this->anggota_model->total_pkd($id_cabang);
@@ -123,54 +122,54 @@ class Korcab extends CI_Controller {
 
         $this->load->view('korcab/cabang/index', $data);
     }
-    
+
     public function komisariat()
-	{
+    {
         $data = array(
             'header_cabang' => $this->cabang_model->all(), //untuk parsing daftar data cabang
         );
 
         $this->load->view('korcab/komisariat/index', $data);
     }
-    
+
     public function rayon()
-	{
+    {
         $data = array(
             'header_cabang' => $this->cabang_model->all(), //untuk parsing daftar data cabang
         );
 
         $this->load->view('korcab/rayon/index', $data);
     }
-    
+
     public function anggota()
-	{
+    {
         $data = array(
             'header_cabang' => $this->cabang_model->all(), //untuk parsing daftar data cabang
         );
 
         $this->load->view('korcab/anggota/index', $data);
     }
-    
+
     public function kopri()
-	{
+    {
         $data = array(
             'header_cabang' => $this->cabang_model->all(), //untuk parsing daftar data cabang
         );
 
         $this->load->view('korcab/kopri/index', $data);
     }
-    
+
     public function alumni()
-	{
+    {
         $data = array(
             'header_cabang' => $this->cabang_model->all(), //untuk parsing daftar data cabang
         );
 
         $this->load->view('korcab/alumni/index', $data);
     }
-    
+
     // fungsi untuk menampilkan data ke dalam datatable
-	public function komisariat_data()
+    public function komisariat_data()
     {
         $results    = $this->komisariat_model->korcab_all();
         $data       = array();
@@ -191,9 +190,9 @@ class Korcab extends CI_Controller {
         $output = array("data" => $data);
         echo json_encode($output);
     }
-    
+
     // fungsi untuk menampilkan data ke dalam datatable
-	public function rayon_data()
+    public function rayon_data()
     {
         $results    = $this->rayon_model->korcab_all();
         $data       = array();
@@ -215,9 +214,9 @@ class Korcab extends CI_Controller {
         $output = array("data" => $data);
         echo json_encode($output);
     }
-    
+
     // fungsi untuk menampilkan data ke dalam datatable
-	public function anggota_data()
+    public function anggota_data()
     {
         $results    = $this->anggota_model->korcab_all();
         $data       = array();
@@ -238,11 +237,10 @@ class Korcab extends CI_Controller {
                         <a href="#" class="btn btn-xs btn-danger">No Print</a>
                     </center>
                 ';
-            }
-            else {
+            } else {
                 $row[]  = '
                     <center>
-                        <a href="'.site_url('anggota/kartu/').$list->id_anggota.'" target="_blank" class="btn btn-xs btn-warning">Print</a>
+                        <a href="' . site_url('anggota/kartu/') . $list->id_anggota . '" target="_blank" class="btn btn-xs btn-warning">Print</a>
                     </center>
                 ';
             }
@@ -255,7 +253,7 @@ class Korcab extends CI_Controller {
     }
 
     // fungsi untuk menampilkan data ke dalam datatable
-	public function kopri_data()
+    public function kopri_data()
     {
         $results    = $this->anggota_model->korcab_kopri();
         $data       = array();
@@ -270,16 +268,16 @@ class Korcab extends CI_Controller {
             $row[]  = $list->nama_komisariat;
             $row[]  = $list->telepon_anggota;
             $row[]  = $list->kaderisasi_kopri;
-            
+
             $data[] = $row;
         }
 
         $output = array("data" => $data);
         echo json_encode($output);
     }
-    
+
     // fungsi untuk menampilkan data ke dalam datatable
-	public function alumni_data()
+    public function alumni_data()
     {
         $results    = $this->alumni_model->korcab();
         $data       = array();
