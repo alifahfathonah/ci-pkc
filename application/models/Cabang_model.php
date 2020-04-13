@@ -21,12 +21,10 @@ class Cabang_model extends CI_Model
     public function update($id_cabang)
     {
         $data = array(
-            'nama_cabang'       => $this->input->post('txt_nama'),
             'alamat_cabang'     => $this->input->post('txt_alamat'),
             'email_cabang'      => $this->input->post('txt_email'),
             'telepon_cabang'    => $this->input->post('txt_telepon'),
             'berdiri_cabang'    => $this->input->post('txt_berdiri'),
-            'status_cabang'     => $this->input->post('txt_status'),
         );
 
         $this->db->where('id_cabang', $id_cabang)->update($this->_table, $data);

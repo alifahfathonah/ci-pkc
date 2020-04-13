@@ -38,7 +38,17 @@
             <div class="sidebar-brand-icon">
                <img src="<?= optimage(base_url('asset/favicon.png')) ?>" width="40">
             </div>
-            <div class="sidebar-brand-text mx-3"><?= TITLE ?></div>
+            <div class="sidebar-brand-text mx-3">
+               <?php
+               if ($this->session->userdata('level_user') == 1) {
+                  echo 'Administrator Web';
+               } else if ($this->session->userdata('level_user') == 2) {
+                  echo TITLE;
+               } else if ($this->session->userdata('level_user') == 3) {
+                  echo 'PC PMII <br> Se-KALTIMRA';
+               }
+               ?>
+            </div>
          </a>
 
          <!-- Divider -->
@@ -47,6 +57,8 @@
          <?php
          if ($this->session->userdata('level_user') == 2) {
             $this->load->view('layout/menu_korcab');
+         } else if ($this->session->userdata('level_user') == 3) {
+            $this->load->view('layout/menu_cabang');
          }
          ?>
       </ul>
@@ -66,13 +78,13 @@
                   <i class="fa fa-bars"></i>
                </button>
 
-               <!-- Topbar Search -->
+               <!-- Topbar date -->
                <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search text-dark">
-                  <div class="font-weight-light">
-                     <strong>
+                  <div class="font-weight-light h4">
+                     <span class="badge badge-primary badge-pill">
                         <i class="zmdi zmdi-calendar"></i>&nbsp;
-                        <?= tanggal(date('Y-m-d'), true) ?>
-                     </strong>
+                        <?= tanggal(date('Y-m-d'), TRUE) ?>
+                     </span>
                   </div>
                </div>
 
@@ -104,7 +116,7 @@
                            Ubah Password
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                        <a class="dropdown-item" href="#" onclick="logout()">
                            <i class="zmdi zmdi-run"></i>&nbsp;
                            Keluar
                         </a>
